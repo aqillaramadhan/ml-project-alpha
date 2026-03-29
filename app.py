@@ -2,19 +2,81 @@ import streamlit as st
 import pandas as pd
 import pickle
 
-# 1. Load Model dari toples Pickle
+# --- 0. KONFIGURASI HALAMAN (HARUS PALING ATAS) ---
+st.set_page_config(page_title="Telco Churn Predictor", page_icon="🌲", layout="centered")
+
+# --- 1. SUNTIKAN DESAIN "NORDIC FOREST" ---
+css_nordic_forest = """
+<style>
+    /* Background utama (Hijau Hutan Super Gelap) */
+    .stApp {
+        background-color: #0E1F19; 
+    }
+    
+    /* Warna Teks Normal (Putih Kehijauan/Abu) */
+    p, span, label, div {
+        color: #E0EAE5 !important;
+    }
+
+    /* Warna Judul (Hijau Mint Terang) */
+    h1, h2, h3 {
+        color: #A7F3D0 !important; 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 800;
+    }
+
+    /* Styling Kotak Input Data */
+    .stNumberInput > div > div > input, 
+    .stSelectbox > div > div > div {
+        background-color: #1A362D !important; /* Hijau tua elegan */
+        color: #FFFFFF !important;
+        border-radius: 8px;
+        border: 1px solid #2A5245 !important;
+    }
+
+    /* Styling Tombol Prediksi Super Kece */
+    .stButton > button {
+        background-color: #10B981; /* Hijau Zamrud */
+        color: #000000 !important;
+        font-weight: 900;
+        border-radius: 8px;
+        border: none;
+        padding: 12px 24px;
+        transition: all 0.3s ease;
+        width: 100%; /* Biar tombolnya panjang penuh */
+    }
+    
+    /* Efek Animasi Pas Mouse Lewat di Atas Tombol */
+    .stButton > button:hover {
+        background-color: #34D399; /* Mint nyala */
+        color: #000000 !important;
+        transform: scale(1.02);
+        box-shadow: 0px 4px 15px rgba(52, 211, 153, 0.4);
+    }
+
+    /* Garis pembatas elegan */
+    hr {
+        border-color: #2A5245;
+    }
+</style>
+"""
+st.markdown(css_nordic_forest, unsafe_allow_html=True)
+
+# --- MULAI DARI SINI KODINGANNYA SAMA KAYAK SEBELUMNYA ---
+
+# 2. Load Model dari toples Pickle
 with open('model_churn.pkl', 'rb') as f:
     paket = pickle.load(f)
 
 model = paket['model']
 fitur = paket['fitur']
 
-# 2. Desain Tampilan Web
-st.title("🔮 Telco Customer Churn Predictor")
+# 3. Desain Tampilan Web
+st.title("🌲 Telco Customer Churn Predictor")
 st.write("Aplikasi AI interaktif untuk memprediksi apakah pelanggan akan kabur atau setia.")
 st.markdown("---")
 
-# 3. Form Input Data Pelanggan
+# 4. Form Input Data Pelanggan
 col1, col2 = st.columns(2)
 
 with col1:
@@ -27,7 +89,7 @@ with col2:
 
 st.markdown("---")
 
-# 4. Tombol Eksekusi
+# 5. Tombol Eksekusi
 if st.button("🚀 Prediksi Sekarang!"):
     # Bikin kerangka data kosong sesuai format XGBoost lu
     input_data = pd.DataFrame(columns=fitur)
